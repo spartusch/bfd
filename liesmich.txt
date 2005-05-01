@@ -1,0 +1,139 @@
+Dieses Archiv wurde von www.partusch.de.vu heruntergeladen.
+
+INHALT des Archivs
+==================
+
+ bfd.com          Der Compiler Brainfucked
+ bfd.asm          Der Quellcode von Brainfucked
+
+ src/		  In Brainfuck geschriebene Beispielprogramme
+ src/factor.b	  Primfaktorzerlegung einer beliebigen positiven Ganzzahl
+ src/hello.b	  Gibt "Hello World!" aus
+ src/numwarp.b	  Gibt Eingaben von "()-./0123456789abcdef" "schöner" aus
+ src/prime.b	  Kann alle Primzahlen von 0 bis 255 ermitteln
+ src/quine.b	  Gibt seinen eigenen Quellcode aus
+
+ gpl.txt          GNU General Public License
+
+ liesmich.txt     Die Datei, die Sie gerade lesen
+ readme.txt       Diese Datei auf Englisch
+
+
+
+DIE SPRACHE
+===========
+
+Jedes Brainfuckprogramm hat ein Array und einen Zeiger, der auf dieses
+zeigt. Mit acht verschiedenen Befehlen können Array und Zeiger manipuliert
+werden:
+
+ Befehl  Effekt                                   Äquivalent in C
+ ------  ------                                   ---------------
+ +       Element unter dem Zeiger erhoehen        ++*p;
+ -       Element unter dem Zeiger verkleinern     --*p;
+ >       Zeiger erhoehen                          p++;
+ <       Zeiger verkleinern                       p--;
+ [       Beginnt Schleife; Zaehler unter Zeiger   while(*p) {
+ ]       Ende der Schleife                        }
+ .       ASCII-Code unter Zeiger ausgeben         putchar(*p);
+ ,       Einlesen und speichern eines Zeichens    *p=getchar();
+
+Alle anderen Zeichen werden ignoriert (und können deswegen zur Kommentierung
+genutzt werden). Alle Elemente des Arrays werden mit 0 initialisiert.
+
+Weitere Informationen über die Sprache Brainfuck gibt es unter
+http://de.wikipedia.org/wiki/Brainfuck
+
+
+
+BRAINFUCKED - DER COMPILER
+==========================
+
+Aufruf
+------
+Der Compiler muss in der Eingabeaufforderung von Windows oder direkt unter DOS
+gestartet werden. Aufgerufen wird er mit "bfd dateiname.endung".
+Beim Namen der Quellcodedatei ist wichtig, dass sie dem DOS-Schema "8.3" folgt.
+Das bedeutet, dass der Dateiname nicht länger als acht Zeichen und die Dateiendung nicht
+länger als drei Zeichen sein darf. Der Dateiname muss jedoch mindestens zwei Zeichen
+lang sein und eine Endung muss vorhanden sein! Ist dies nicht der Fall, erzeugt das
+eine "ERR: File"-Fehlermeldung!
+Ein korrekter Beispielaufruf wäre also z.B. "bfd src/hello.b" (ohne Anführungszeichen).
+
+Code-Optimierung
+----------------
+Brainfucked verfügt über eine gute Code-Optimierung, um Ihren Brainfuckcode im Bezug
+auf Größe, aber auch im Bezug auf Ausführungsgeschwindigkeit, zu optimieren.
+
+Syntax-Check
+------------
+Brainfucked überprüft die Syntax eines Brainfuckprogramms. Ist die Syntax nicht
+einwandfrei, gibt Brainfucked eine Fehlermeldung oder eine Warnung aus.
+Siehe Meldungen.
+
+Kompatibilität
+--------------
+Brainfucked verfügt über zwei verschiedene Modi, um Brainfuckcode zu erzeugen.
+
+Im Standardmodus erzeugt die ENTER-Taste beim Einlesen mit dem Brainfuckbefehl ","
+den Wert 10 (LF). Wird der Wert 10 (LF) mit dem Befehl "." ausgegeben, erzeugt dies
+einen vollständigen DOS/Windows-Zeilenumbruch (CR LF) in der Ausgabe.
+Dadurch ist der Standardmodus in der Lage, Brainfuckprogramme, die für Unix-Umgebungen
+geschrieben wurden, korrekt auszuführen. Da die mit Abstand meisten komplexeren
+Brainfuckprogramme für diese Umgebungen geschrieben werden, ist aus Kompatibilitäts-
+gründen auch dringend empfohlen, eigene Programme nach diesen Vorgaben zu entwickeln.
+
+Durch die Angabe des Parameters "-n" beim Aufruf von Brainfucked, wird in den sog.
+"native mode" (Beispielaufruf: "bfd -n src/hello.b") gewechselt. In diesem Modus werden
+unverändert die Tastaturcodes von DOS/Windows eingelesen. Die ENTER-Taste hat dadurch den
+Wert 13 (CR). Zum Ausgeben eines Zeilenumbruchs muss manuell die Wertfolge 13, 10 (CR LF)
+ausgegeben werden. Dieser Modus ist in der Lage, speziell für windows entwickelte
+Brainfuckprogramme korrekt zu übersetzen.
+Diese Programme sind jedoch mit sehr vielen Brainfuck-Implementierungen nicht korrekt
+ausführbar! Für eigene Entwicklungen wird deswegen dringend zum Standardmodus geraten!
+
+In beiden Modi steht jedem Brainfuckprogramm ein Array von 44000 Zellen zur Verfügung,
+wobei jede Zelle ein Byte groß ist. Das Array ist in jeder Zelle mit 0 initialisiert.
+
+Verhalten der Brainfuckbefehle:
+-------------------------------------------------------------------------------------
+Befehl   |  Verhalten im Standardmodus             |  Verhalten im native mode
+-------------------------------------------------------------------------------------
++        |  wert erhöhen                           |  wie Standardmodus
+-        |  wert veringern                         |  wie Standardmodus
+[        |  Schleifenstart                         |  wie Standardmodus
+]        |  Schleifenende                          |  wie Standardmodus
+.        |  Ausgabe eines ASCII-Werts*             |  Ausgabe eines ASCII-Werts*
+,        |  Einlesen und Ausgabe des ASCII-Werts*  |  Einlesen eines ASCII-Werts*
+>        |  Zeiger erhöhen                         |  wie Standardmodus
+<        |  Zeiger veringern                       |  wie Standardmodus
+-------------------------------------------------------------------------------------
+* siehe Abschnitt "Kompatibilität"!
+
+
+Meldungen
+---------
+Hier folgt nun eine Auflistung aller Meldungen von Brainfucked und mögliche Ursachen
+für diese Meldungen:
+
+-----------------------------------------------------------------------------------------------------
+Meldung         |  Bedeutung                     |  mögliche Ursache
+-----------------------------------------------------------------------------------------------------
+ERR: File       |  Fehler bei Dateiverarbeitung  |  Datei nicht gefunden oder kein 8.3-Dateiname
+ERR: Loop       |  schwerer Syntaxfehler         |  Mindestens eine Schleife ist falsch z.B. "]["
+WRN: Range      |  möglicher Programmfehler      |  Es gibt mehr < als >, falls unbeabsichtigt, sehr
+                |                                |  wahrscheinlich ein Fehler!
+File assembled  |  Datei erfolgreich kompiliert  |  Programm konnte übersetzt werden ;-)
+-----------------------------------------------------------------------------------------------------
+
+
+Lizenz
+------
+Brainfucked ist unter den Bedingungen der GNU General Public License veröffentlicht worden. Diese
+liegt als gpl.txt dem Programm bei. Eine deutsche Übersetzung findet sich unter:
+http://www.gnu.de/gpl-ger.html
+
+
+
+ Viel Spass mit Brainfucked!
+     - Stefan Partusch (partusch@arcor.de)
