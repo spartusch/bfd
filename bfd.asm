@@ -1,6 +1,5 @@
 ;
 ;          Brainfucked version 1.0.0 - A nice DOS/Windows compiler for brainfuck
-;          partusch@arcor.de                           http://www.partusch.de.vu
 ;
 ;          Copyright (c) 2002, 2005 by Stefan Partusch
 ;

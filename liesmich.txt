@@ -1,12 +1,9 @@
-Dieses Archiv wurde von www.partusch.de.vu heruntergeladen.
+INHALT
+======
 
-INHALT des Archivs
-==================
-
- bfd.com          Der Compiler Brainfucked
  bfd.asm          Der Quellcode von Brainfucked
 
- src/		  In Brainfuck geschriebene Beispielprogramme
+ src/		      In Brainfuck geschriebene Beispielprogramme
  src/factor.b	  Primfaktorzerlegung einer beliebigen positiven Ganzzahl
  src/hello.b	  Gibt "Hello World!" aus
  src/numwarp.b	  Gibt Eingaben von "()-./0123456789abcdef" "schöner" aus
@@ -135,5 +132,4 @@ http://www.gnu.de/gpl-ger.html
 
 
 
- Viel Spass mit Brainfucked!
-     - Stefan Partusch (partusch@arcor.de)
+ Viel Spaß mit Brainfucked!

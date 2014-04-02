@@ -1,9 +1,6 @@
-This archive was downloaded from www.partusch.de.vu
+CONTENTS
+========
 
-CONTENT of the archive
-======================
-
- bfd.com          The Brainfucked compiler
  bfd.asm          The source code of Brainfucked
 
  src/		  Some examples in Brainfuck
@@ -123,4 +120,3 @@ Brainfucked is released under the terms of the GNU General Public License. See g
 
 
    Have fun with Brainfucked!
-       - Stefan Partusch (partusch@arcor.de)
